@@ -5,7 +5,6 @@ COPY pom.xml /Backend
 COPY src /Backend/src
 RUN mvn -f pom.xml clean
 RUN mvn install -DskipTests
-# RUN command
 
 FROM openjdk:12
 COPY --from=build /Backend/target/*.jar app.jar

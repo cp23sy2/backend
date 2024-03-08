@@ -187,6 +187,16 @@ public class ReviewService {
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         id + " does't exist !!"));
 
+        if(roleMail.getAuthorities().toString().equals("[st_group]")){
+            if(!roleMail.getDetails().equals(review.getEmailOwner())){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"It's not your post");
+            }
+        }
+
+        if (review.getHide() == true) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot edit a hidden review");
+        }
+
         review.setGradesReceived(editReview.getGradesReceived());
         review.setSection(editReview.getSection());
         review.setSemester(editReview.getSemester());
@@ -203,12 +213,6 @@ public class ReviewService {
 
         if (editReview.getYear() > Year.now().getValue()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Year cannot be in the future");
-        }
-
-        if(roleMail.getAuthorities().toString().equals("[st_group]")){
-            if(!roleMail.getDetails().equals(review.getEmailOwner())){
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"It's not your post");
-            }
         }
 
         return reviewRepository.saveAndFlush(review);
@@ -342,5 +346,48 @@ public class ReviewService {
         return reviewRepository.saveAndFlush(review);
     }
 
+    public List<ReviewViewAllDto> getReviewByBeHidden() {
+        Authentication roleMail = SecurityContextHolder.getContext().getAuthentication();
+
+        List<Review> reviewAllList = reviewRepository.findAllReviewByBeHidden(roleMail.getDetails().toString());
+        List<ReviewViewAllDto> reviewViewAllDtos = new ArrayList<>();
+
+        for (Review review : reviewAllList) {
+            ReviewViewAllDto dto = new ReviewViewAllDto();
+            dto.setId(review.getId());
+            dto.setGradesReceived(review.getGradesReceived());
+            dto.setSection(review.getSection());
+            dto.setSemester(review.getSemester());
+            dto.setYear(review.getYear());
+            dto.setInstructorName(review.getInstructorName());
+            dto.setRatingOfIndividualWork(review.getRatingOfIndividualWork());
+            dto.setRatingOfEasyExam(review.getRatingOfEasyExam());
+            dto.setRatingOfGradeCollect(review.getRatingOfGradeCollect());
+            dto.setRatingOfInteresting(review.getRatingOfInteresting());
+            dto.setRatingOfGroupWork(review.getRatingOfGroupWork());
+            dto.setWork(review.getWork());
+            dto.setReviewDescription(review.getReviewDescription());
+            dto.setEmailOwner(review.getEmailOwner());
+            dto.setHide(review.getHide());
+
+            // Map Course details
+            Course course = review.getCourseIdcourse();
+            if (course != null) {
+                dto.setCourseName(course.getCourseName());
+                dto.setCourseFullName(course.getCourseFullName());
+
+                // Map Category details
+                CategoryCourse categoryCourse = course.getCategoryCourseIdcategoryCourse();
+                if (categoryCourse != null) {
+                    dto.setCategoryName(categoryCourse.getCategoryName());
+                }
+            }
+
+            dto.setReviewCreatedOn(review.getReviewCreatedOn());
+            reviewViewAllDtos.add(dto);
+        }
+
+        return reviewViewAllDtos;
+    }
 
 }

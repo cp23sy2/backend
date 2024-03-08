@@ -150,6 +150,16 @@ public class CourseFileService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         });
 
+        if(roleMail.getAuthorities().toString().equals("[st_group]")){
+            if(!roleMail.getDetails().equals(courseFile.getEmailOwner())){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"It's not your post");
+            }
+        }
+
+        if (courseFile.getHide() == true) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot edit a hidden course file");
+        }
+
         //remove old file and add new file upload
         if(editCourseFile.getFileUpload() != null) {
             if(editCourseFile.getFileUpload().isEmpty() || editCourseFile.getFileUpload() == null) {
@@ -178,12 +188,6 @@ public class CourseFileService {
         courseFile.setTitle(editCourseFile.getTitle());
         courseFile.setFileDescription(editCourseFile.getFileDescription());
         courseFile.setHide(editCourseFile.getHide());
-
-        if(roleMail.getAuthorities().toString().equals("[st_group]")){
-            if(!roleMail.getDetails().equals(courseFile.getEmailOwner())){
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"It's not your post");
-            }
-        }
 
         CourseFile cf = modelMapper.map(courseFile,CourseFile.class);
         return courseFileRepository.saveAndFlush(cf);
@@ -322,4 +326,40 @@ public class CourseFileService {
         courseFile.setHide(true);
         courseFileRepository.save(courseFile);
     }
+
+    public List<CourseFileAllDto> getCourseFileAllByBeHidden() {
+        Authentication roleMail = SecurityContextHolder.getContext().getAuthentication();
+
+        List<CourseFile> courseFileList = courseFileRepository.findAllCourseFileByBeHidden(roleMail.getDetails().toString());
+        List<CourseFileAllDto> courseFileAllDtos = new ArrayList<>();
+
+        for (CourseFile courseFile : courseFileList) {
+            CourseFileAllDto dto = new CourseFileAllDto();
+            dto.setId(courseFile.getIdCourse_File());
+            dto.setFileDescription(courseFile.getFileDescription());
+            dto.setFileCreatedOn(courseFile.getFileCreatedOn());
+            dto.setFileUpload(courseFile.getFileUpload());
+            dto.setEmailOwner(courseFile.getEmailOwner());
+            dto.setTitle(courseFile.getTitle());
+            dto.setHide(courseFile.getHide());
+
+            // Map Course details
+            Course course = courseFile.getCourseIdcourse();
+            if (course != null) {
+                dto.setCourseName(course.getCourseName());
+                dto.setCourseFullName(course.getCourseFullName());
+
+                // Map Category details
+                CategoryCourse categoryCourse = course.getCategoryCourseIdcategoryCourse();
+                if (categoryCourse != null) {
+                    dto.setCategoryName(categoryCourse.getCategoryName());
+                }
+            }
+
+            courseFileAllDtos.add(dto);
+        }
+
+        return courseFileAllDtos;
+    }
+
 }

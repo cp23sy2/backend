@@ -85,4 +85,10 @@ public class CourseFileController {
     public void hideCourseFile(@PathVariable Integer courseFileId) {
         courseFileService.editCourseFileHideStatus(courseFileId);
     }
+
+    @PreAuthorize("hasAuthority('st_group')")
+    @GetMapping("/hidden")
+    public List<CourseFileAllDto> getCourseFileAllByBeHidden(){
+        return courseFileService.getCourseFileAllByBeHidden();
+    }
 }

@@ -40,11 +40,6 @@ public class Course {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "semester_idSemester", nullable = false)
-    private Semester semesterIdsemester;
-
-    @NotNull
-    @ManyToOne
     @JoinColumn(name = "category_Course_idCategory_Course", nullable = false)
     private CategoryCourse categoryCourseIdcategoryCourse;
 

@@ -45,6 +45,6 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
             "where r.hide is true and r.emailOwner = :emailOwner order by r.reviewCreatedOn desc", nativeQuery = true)
     List<Review> findAllReviewByBeHidden(@Param("emailOwner") String emailOwner);
 
-    List<Review> findAllByCourseIdcourseId(Integer courseId);
+    List<Review> findAllByCourseIdcourseIdAndHideIsFalse(Integer courseId);
 
 }

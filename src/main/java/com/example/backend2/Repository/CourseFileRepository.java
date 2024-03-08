@@ -49,5 +49,5 @@ public interface CourseFileRepository extends JpaRepository<CourseFile, Integer>
             "where cf.hide is true and cf.emailOwner = :emailOwner order by cf.fileCreatedOn desc", nativeQuery = true)
     List<CourseFile> findAllCourseFileByBeHidden(@Param("emailOwner") String emailOwner);
 
-    List<CourseFile> findAllByCourseIdcourseId(Integer courseId);
+    List<CourseFile> findAllByCourseIdcourseIdAndHideIsFalse(Integer courseId);
 }

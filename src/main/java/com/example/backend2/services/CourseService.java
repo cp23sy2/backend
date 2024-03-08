@@ -51,10 +51,10 @@ public class CourseService {
         for (Course course : courses) {
             CourseViewDto courseViewDto = modelMapper.map(course, CourseViewDto.class);
 
-            List<Review> reviews = reviewRepository.findAllByCourseIdcourseId(course.getId());
+            List<Review> reviews = reviewRepository.findAllByCourseIdcourseIdAndHideIsFalse(course.getId());
             courseViewDto.setReviewsCount(reviews.size());
 
-            List<CourseFile> courseFiles = courseFileRepository.findAllByCourseIdcourseId(course.getId());
+            List<CourseFile> courseFiles = courseFileRepository.findAllByCourseIdcourseIdAndHideIsFalse(course.getId());
             courseViewDto.setSummariesCount(courseFiles.size());
 
             courseViewDtos.add(courseViewDto);

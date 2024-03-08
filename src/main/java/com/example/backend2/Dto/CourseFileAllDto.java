@@ -24,5 +24,5 @@ public class CourseFileAllDto {
     private Instant fileCreatedOn;
     private String fileUpload;
     private Boolean hide;
-    private int commentCount;
+    private Integer commentCount;
 }

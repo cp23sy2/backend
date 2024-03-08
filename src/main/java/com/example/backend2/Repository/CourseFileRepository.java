@@ -1,5 +1,6 @@
 package com.example.backend2.Repository;
 
+import com.example.backend2.Entity.Course;
 import com.example.backend2.Entity.CourseFile;
 import com.example.backend2.Entity.Review;
 import org.springframework.data.domain.Page;
@@ -48,5 +49,5 @@ public interface CourseFileRepository extends JpaRepository<CourseFile, Integer>
             "where cf.hide is true and cf.emailOwner = :emailOwner order by cf.fileCreatedOn desc", nativeQuery = true)
     List<CourseFile> findAllCourseFileByBeHidden(@Param("emailOwner") String emailOwner);
 
-
+    List<CourseFile> findAllByCourseIdcourseId(Integer courseId);
 }

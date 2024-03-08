@@ -1,6 +1,7 @@
 package com.example.backend2.controllers;
 
-import com.example.backend2.Dto.CourseReviewDto;
+import com.example.backend2.Dto.CourseFileAllDto;
+import com.example.backend2.Dto.CourseViewDto;
 import com.example.backend2.Entity.CourseFile;
 import com.example.backend2.Entity.Review;
 import com.example.backend2.services.CourseService;
@@ -21,7 +22,7 @@ public class CourseController {
 
     @PreAuthorize("hasAnyAuthority('staff_group','st_group')")
     @GetMapping("")
-    public List<CourseReviewDto> getCourseAll() {
+    public List<CourseViewDto> getCourseAll() {
         return courseService.getCourseAll();
     }
 
@@ -34,7 +35,7 @@ public class CourseController {
 
     @PreAuthorize("hasAnyAuthority('staff_group','st_group')")
     @GetMapping("/{courseId}")
-    public CourseReviewDto getCourseDetail(@PathVariable Integer courseId){
+    public CourseViewDto getCourseDetail(@PathVariable Integer courseId){
         return courseService.getCourseDetail(courseId);
     }
 
@@ -55,7 +56,7 @@ public class CourseController {
 
 
     @GetMapping("/{courseId}/summary")
-    public List<CourseFile> getCourseByCourseId(@PathVariable Integer courseId) {
+    public List<CourseFileAllDto> getCourseByCourseId(@PathVariable Integer courseId) {
         return courseService.getCourseByCourseId(courseId);
     }
 

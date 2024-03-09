@@ -360,6 +360,8 @@ public class CourseFileService {
                 }
             }
 
+            List<Comment> comments = commentRepository.findByCourseFileIdcourseFile(courseFile);
+            dto.setCommentCount(comments.size());
             courseFileAllDtos.add(dto);
         }
 

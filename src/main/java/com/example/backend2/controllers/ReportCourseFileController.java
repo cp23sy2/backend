@@ -61,7 +61,7 @@ public class ReportCourseFileController {
 //        return reportCourseFileService.getReportCourseFilebyCourseFileId(courseFileId);
 //    }
 
-    @PreAuthorize("hasAuthority('staff_group')")
+    @PreAuthorize("hasAnyAuthority('staff_group','st_group')")
     @GetMapping("/{courseFileId}/summary")
     public List<ReportCourseFileViewDto> getReportCourseFileByCourseFileId(@PathVariable Integer courseFileId) {
         return reportCourseFileService.getReportCourseFileByCourseFileId(courseFileId);

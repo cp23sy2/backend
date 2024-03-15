@@ -82,7 +82,7 @@ public class ReviewController {
 
     @PreAuthorize("hasAuthority('staff_group')")
     @GetMapping("/report")
-    public List<ReviewViewAllDto> getReviewHaveReport() {
+    public List<ReviewViewReportDto> getReviewHaveReport() {
         return reviewService.getReviewHaveReport();
     }
 

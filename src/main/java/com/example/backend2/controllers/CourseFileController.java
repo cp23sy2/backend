@@ -75,7 +75,7 @@ public class CourseFileController {
 
     @PreAuthorize("hasAuthority('staff_group')")
     @GetMapping("/report")
-    public List<CourseFileAllDto> getCourseFileByCourseFileHaveReport(){
+    public List<CourseFileViewReportDto> getCourseFileByCourseFileHaveReport(){
         return courseFileService.getCourseFileByCourseFileHaveReport();
     }
 

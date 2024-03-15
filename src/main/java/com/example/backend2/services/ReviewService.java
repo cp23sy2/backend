@@ -1,9 +1,6 @@
 package com.example.backend2.services;
 
-import com.example.backend2.Dto.ReviewCreateDto;
-import com.example.backend2.Dto.ReviewDetailDto;
-import com.example.backend2.Dto.ReviewEditDto;
-import com.example.backend2.Dto.ReviewViewAllDto;
+import com.example.backend2.Dto.*;
 import com.example.backend2.Entity.*;
 import com.example.backend2.Repository.CourseRepository;
 import com.example.backend2.Repository.ReportReviewRepository;
@@ -295,12 +292,12 @@ public class ReviewService {
         return reviewViewAllDtos;
     }
 
-    public List<ReviewViewAllDto> getReviewHaveReport() {
+    public List<ReviewViewReportDto> getReviewHaveReport() {
         List<Review> reviewAllList = reviewRepository.findReviewByReviewHaveReport();
-        List<ReviewViewAllDto> reviewViewAllDtos = new ArrayList<>();
+        List<ReviewViewReportDto> reviewViewAllDtos = new ArrayList<>();
 
         for (Review review : reviewAllList) {
-            ReviewViewAllDto dto = new ReviewViewAllDto();
+            ReviewViewReportDto dto = new ReviewViewReportDto();
             dto.setId(review.getId());
             dto.setGradesReceived(review.getGradesReceived());
             dto.setSection(review.getSection());
@@ -331,6 +328,9 @@ public class ReviewService {
             }
 
             dto.setReviewCreatedOn(review.getReviewCreatedOn());
+
+            List<ReportReview> reportReviews = reportReviewRepository.findByReviewIdreview(review);
+            dto.setReportReviewCount(reportReviews.size());
             reviewViewAllDtos.add(dto);
         }
 
@@ -373,7 +373,13 @@ public class ReviewService {
             dto.setRatingOfGroupWork(review.getRatingOfGroupWork());
             dto.setWork(review.getWork());
             dto.setReviewDescription(review.getReviewDescription());
-            dto.setEmailOwner(review.getEmailOwner());
+
+            if (roleMail.getAuthorities().toString().equals("[staff_group]")) {
+                dto.setEmailOwner(review.getEmailOwner());
+            } else {
+                dto.setEmailOwner("Anonymous");
+            }
+
             dto.setHide(review.getHide());
 
             // Map Course details

@@ -40,6 +40,7 @@ public interface CourseFileRepository extends JpaRepository<CourseFile, Integer>
 
     @Query(value = "select DISTINCT cf.* from course_file cf " +
             "JOIN report_coursefile rc ON cf.idCourse_File = rc.Course_File_idCourse_File " +
+            "where cf.hide is false " +
             "order by cf.fileCreatedOn desc ", nativeQuery = true)
     List<CourseFile> findCourseFileByCourseFileHaveReport();
 

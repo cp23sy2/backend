@@ -289,12 +289,12 @@ public class CourseFileService {
         return courseFileAllDtos;
     }
 
-    public List<CourseFileAllDto> getCourseFileByCourseFileHaveReport() {
+    public List<CourseFileViewReportDto> getCourseFileByCourseFileHaveReport() {
         List<CourseFile> courseFileList = courseFileRepository.findCourseFileByCourseFileHaveReport();
-        List<CourseFileAllDto> courseFileAllDtos = new ArrayList<>();
+        List<CourseFileViewReportDto> courseFileAllDtos = new ArrayList<>();
 
         for (CourseFile courseFile : courseFileList) {
-            CourseFileAllDto dto = new CourseFileAllDto();
+            CourseFileViewReportDto dto = new CourseFileViewReportDto();
             dto.setId(courseFile.getIdCourse_File());
             dto.setFileDescription(courseFile.getFileDescription());
             dto.setFileCreatedOn(courseFile.getFileCreatedOn());
@@ -315,6 +315,9 @@ public class CourseFileService {
                     dto.setCategoryName(categoryCourse.getCategoryName());
                 }
             }
+
+            List<ReportCoursefile> reportCoursefiles = reportCoursefileRepository.findByCourseFileIdcourseFile(courseFile);
+            dto.setReportSummaryCount(reportCoursefiles.size());
 
             courseFileAllDtos.add(dto);
         }
@@ -349,7 +352,13 @@ public class CourseFileService {
             dto.setFileDescription(courseFile.getFileDescription());
             dto.setFileCreatedOn(courseFile.getFileCreatedOn());
             dto.setFileUpload(courseFile.getFileUpload());
-            dto.setEmailOwner(courseFile.getEmailOwner());
+
+            if (roleMail.getAuthorities().toString().equals("[staff_group]")) {
+                dto.setEmailOwner(courseFile.getEmailOwner());
+            } else {
+                dto.setEmailOwner("Anonymous");
+            }
+
             dto.setTitle(courseFile.getTitle());
             dto.setHide(courseFile.getHide());
 
@@ -368,6 +377,7 @@ public class CourseFileService {
 
             List<Comment> comments = commentRepository.findByCourseFileIdcourseFile(courseFile);
             dto.setCommentCount(comments.size());
+
             courseFileAllDtos.add(dto);
         }
 

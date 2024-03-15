@@ -36,6 +36,7 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
     @Query(value = "select DISTINCT r.* from review r " +
             "JOIN report_review rr ON r.idReview = rr.Review_idReview " +
+            "where r.hide is false " +
             "order by r.reviewCreatedOn desc ", nativeQuery = true)
     List<Review> findReviewByReviewHaveReport();
 

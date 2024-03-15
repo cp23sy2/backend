@@ -133,12 +133,19 @@ public class ReportCourseFileService {
 //    }
 
     public List<ReportCourseFileViewDto> getReportCourseFileByCourseFileId(Integer courseFileId) {
+        Authentication roleMail = SecurityContextHolder.getContext().getAuthentication();
+
         List<ReportCoursefile> reportCoursefileList = reportCoursefileRepository.findReportCoursefileByCourseFileId(courseFileId);
         List<ReportCourseFileViewDto> viewDtoList = new ArrayList<>();
 
         for (ReportCoursefile reportCoursefile : reportCoursefileList) {
             ReportCourseFileViewDto viewDto = modelMapper.map(reportCoursefile, ReportCourseFileViewDto.class);
             viewDto.setIdCourse_File(reportCoursefile.getCourseFileIdcourseFile().getIdCourse_File());
+            if (roleMail.getAuthorities().toString().equals("[staff_group]")) {
+                viewDto.setEmailReportCourseFile(reportCoursefile.getEmailReportCourseFile());
+            } else {
+                viewDto.setEmailReportCourseFile("Anonymous");
+            }
             viewDtoList.add(viewDto);
         }
 

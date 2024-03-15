@@ -352,13 +352,7 @@ public class CourseFileService {
             dto.setFileDescription(courseFile.getFileDescription());
             dto.setFileCreatedOn(courseFile.getFileCreatedOn());
             dto.setFileUpload(courseFile.getFileUpload());
-
-            if (roleMail.getAuthorities().toString().equals("[staff_group]")) {
-                dto.setEmailOwner(courseFile.getEmailOwner());
-            } else {
-                dto.setEmailOwner("Anonymous");
-            }
-
+            dto.setEmailOwner(courseFile.getEmailOwner());
             dto.setTitle(courseFile.getTitle());
             dto.setHide(courseFile.getHide());
 

@@ -103,12 +103,19 @@ public class ReportReviewService {
     }
 
     public List<ReportReviewViewDto> getReportReviewByReviewId(Integer reviewId) {
+        Authentication roleMail = SecurityContextHolder.getContext().getAuthentication();
+
         List<ReportReview> reportReviewList = reportReviewRepository.findReportReviewByReviewId(reviewId);
         List<ReportReviewViewDto> viewDtoList = new ArrayList<>();
 
         for (ReportReview reportReview : reportReviewList) {
             ReportReviewViewDto viewDto = modelMapper.map(reportReview, ReportReviewViewDto.class);
             viewDto.setIdReview(reportReview.getReviewIdreview().getId());
+            if (roleMail.getAuthorities().toString().equals("[staff_group]")) {
+                viewDto.setEmailReportReview(reportReview.getEmailReportReview());
+            } else {
+                viewDto.setEmailReportReview("Anonymous");
+            }
             viewDtoList.add(viewDto);
         }
 

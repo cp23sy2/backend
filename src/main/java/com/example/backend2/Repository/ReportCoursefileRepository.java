@@ -17,4 +17,6 @@ public interface ReportCoursefileRepository extends JpaRepository<ReportCoursefi
             "WHERE rc.Course_File_idCourse_File = :courseFileId " +
             "ORDER BY rc.reportCourseFileCreatedOn DESC", nativeQuery = true)
     List<ReportCoursefile> findReportCoursefileByCourseFileId(Integer courseFileId);
+
+
 }

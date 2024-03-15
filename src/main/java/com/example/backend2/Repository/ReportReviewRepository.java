@@ -17,4 +17,6 @@ public interface ReportReviewRepository extends JpaRepository<ReportReview, Inte
             "WHERE rr.Review_idReview = :reviewId " +
             "ORDER BY rr.reportReviewCreatedOn DESC", nativeQuery = true)
     List<ReportReview> findReportReviewByReviewId(Integer reviewId);
+
+
 }

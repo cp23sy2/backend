@@ -373,13 +373,7 @@ public class ReviewService {
             dto.setRatingOfGroupWork(review.getRatingOfGroupWork());
             dto.setWork(review.getWork());
             dto.setReviewDescription(review.getReviewDescription());
-
-            if (roleMail.getAuthorities().toString().equals("[staff_group]")) {
-                dto.setEmailOwner(review.getEmailOwner());
-            } else {
-                dto.setEmailOwner("Anonymous");
-            }
-
+            dto.setEmailOwner(review.getEmailOwner());
             dto.setHide(review.getHide());
 
             // Map Course details

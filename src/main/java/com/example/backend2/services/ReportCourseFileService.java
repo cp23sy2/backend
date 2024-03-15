@@ -117,6 +117,11 @@ public class ReportCourseFileService {
         reportCoursefileRepository.deleteById(reportCourseFileId);
     }
 
+    public void deleteReportCourseFileByCourseFileId(Integer courseFileId) {
+        List<ReportCoursefile> reportCoursefilesToDelete = reportCoursefileRepository.findReportCoursefileByCourseFileId(courseFileId);
+        reportCoursefileRepository.deleteAll(reportCoursefilesToDelete);
+    }
+
 //    public List<ReportCourseFileViewDto> getReportCourseFilebyCourseFileId(Integer courseFileId) {
 //        courseFileRepository.findById(courseFileId).orElseThrow(
 //                () -> new ResponseStatusException(HttpStatus.NOT_FOUND,

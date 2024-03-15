@@ -2,6 +2,7 @@ package com.example.backend2.services;
 
 import com.example.backend2.Dto.ReportReviewCreateDto;
 import com.example.backend2.Dto.ReportReviewViewDto;
+import com.example.backend2.Entity.ReportCoursefile;
 import com.example.backend2.Entity.ReportReview;
 import com.example.backend2.Entity.Review;
 import com.example.backend2.Repository.ReportReviewRepository;
@@ -100,6 +101,11 @@ public class ReportReviewService {
         }
 
         reportReviewRepository.deleteById(reportReviewId);
+    }
+
+    public void deleteReportReviewByReviewId(Integer reviewId) {
+        List<ReportReview> reportReportToDelete = reportReviewRepository.findReportReviewByReviewId(reviewId);
+        reportReviewRepository.deleteAll(reportReportToDelete);
     }
 
     public List<ReportReviewViewDto> getReportReviewByReviewId(Integer reviewId) {

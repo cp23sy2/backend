@@ -61,9 +61,15 @@ public class ReportCourseFileController {
 //        return reportCourseFileService.getReportCourseFilebyCourseFileId(courseFileId);
 //    }
 
-    @PreAuthorize("hasAnyAuthority('staff_group','st_group')")
+    @PreAuthorize("hasAuthority('staff_group')")
     @GetMapping("/{courseFileId}/summary")
     public List<ReportCourseFileViewDto> getReportCourseFileByCourseFileId(@PathVariable Integer courseFileId) {
         return reportCourseFileService.getReportCourseFileByCourseFileId(courseFileId);
+    }
+
+    @PreAuthorize("hasAuthority('staff_group')")
+    @DeleteMapping("/{courseFileId}/summary")
+    public void deleteReportCourseFileByCourseFileId(@PathVariable Integer courseFileId) {
+        reportCourseFileService.deleteReportCourseFileByCourseFileId(courseFileId);
     }
 }

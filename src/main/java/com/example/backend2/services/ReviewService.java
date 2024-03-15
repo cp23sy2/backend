@@ -342,7 +342,7 @@ public class ReviewService {
         Review review = reviewRepository.findById(reviewId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, reviewId + " does't exist !!"));
 
-        review.setHide(!review.getHide());
+        review.setHide(true);
         return reviewRepository.saveAndFlush(review);
     }
 

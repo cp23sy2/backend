@@ -47,7 +47,7 @@ public class ReportReviewController {
         return reportReviewService.getDetail(reportReviewId);
     }
 
-    @PreAuthorize("hasAnyAuthority('staff_group','st_group')")
+    @PreAuthorize("hasAuthority('staff_group')")
     @DeleteMapping("/{reportReviewId}")
     public void delete(@PathVariable Integer reportReviewId) {
         reportReviewService.deleteReportReview(reportReviewId);

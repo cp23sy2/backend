@@ -330,7 +330,7 @@ public class CourseFileService {
         CourseFile courseFile = courseFileRepository.findById(courseFileId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, courseFileId + " does't exist !!"));
 
-        courseFile.setHide(!courseFile.getHide());
+        courseFile.setHide(true);
         courseFileRepository.save(courseFile);
     }
 

@@ -49,7 +49,7 @@ public class ReportCourseFileController {
         return reportCourseFileService.getDetail(reportCourseFileId);
     }
 
-    @PreAuthorize("hasAnyAuthority('staff_group','st_group')")
+    @PreAuthorize("hasAuthority('staff_group')")
     @DeleteMapping("/{reportCourseFileId}")
     public void delete(@PathVariable Integer reportCourseFileId) {
         reportCourseFileService.deleteReportCourseFile(reportCourseFileId);

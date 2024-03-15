@@ -342,14 +342,20 @@ public class ReviewService {
         Review review = reviewRepository.findById(reviewId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, reviewId + " does't exist !!"));
 
-        review.setHide(true);
+        review.setHide(!review.getHide());
         return reviewRepository.saveAndFlush(review);
     }
 
     public List<ReviewViewAllDto> getReviewByBeHidden() {
         Authentication roleMail = SecurityContextHolder.getContext().getAuthentication();
 
-        List<Review> reviewAllList = reviewRepository.findAllReviewByBeHidden(roleMail.getDetails().toString());
+        List<Review> reviewAllList;
+        if (roleMail.getAuthorities().toString().equals("[staff_group]")) {
+            reviewAllList = reviewRepository.findAllReviewByBeHidden();
+        } else {
+            reviewAllList = reviewRepository.findAllReviewByBeHiddenAndEmail(roleMail.getDetails().toString());
+        }
+
         List<ReviewViewAllDto> reviewViewAllDtos = new ArrayList<>();
 
         for (Review review : reviewAllList) {

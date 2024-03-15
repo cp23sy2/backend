@@ -86,7 +86,7 @@ public class CourseFileController {
         courseFileService.editCourseFileHideStatus(courseFileId);
     }
 
-    @PreAuthorize("hasAuthority('st_group')")
+    @PreAuthorize("hasAnyAuthority('staff_group','st_group')")
     @GetMapping("/hidden")
     public List<CourseFileAllDto> getCourseFileAllByBeHidden(){
         return courseFileService.getCourseFileAllByBeHidden();

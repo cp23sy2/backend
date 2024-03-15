@@ -52,7 +52,11 @@ public class ReportReviewService {
         reportReview.setReportReviewCreatedOn(currentInstant);
         reportReview.setReviewIdreview(review);
 
-        System.out.println(roleMail);
+        if(reportReviewNew.getInappropriateReview() == false && reportReviewNew.getNotMatchReview() == false ||
+                reportReviewNew.getInappropriateReview() == true && reportReviewNew.getNotMatchReview() == true) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please send 1 detail to report");
+        }
+
         if(roleMail.getAuthorities().toString().equals("[st_group]")){
             if(!roleMail.getDetails().equals(reportReview.getEmailReportReview())){
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"It's not your report");

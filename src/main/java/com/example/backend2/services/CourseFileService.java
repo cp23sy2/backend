@@ -327,14 +327,20 @@ public class CourseFileService {
         CourseFile courseFile = courseFileRepository.findById(courseFileId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, courseFileId + " does't exist !!"));
 
-        courseFile.setHide(true);
+        courseFile.setHide(!courseFile.getHide());
         courseFileRepository.save(courseFile);
     }
 
     public List<CourseFileAllDto> getCourseFileAllByBeHidden() {
         Authentication roleMail = SecurityContextHolder.getContext().getAuthentication();
 
-        List<CourseFile> courseFileList = courseFileRepository.findAllCourseFileByBeHidden(roleMail.getDetails().toString());
+        List<CourseFile> courseFileList;
+        if (roleMail.getAuthorities().toString().equals("[staff_group]")) {
+            courseFileList = courseFileRepository.findAllCourseFileByBeHidden();
+        } else {
+            courseFileList = courseFileRepository.findAllCourseFileByBeHiddenAnsEmail(roleMail.getDetails().toString());
+        }
+
         List<CourseFileAllDto> courseFileAllDtos = new ArrayList<>();
 
         for (CourseFile courseFile : courseFileList) {

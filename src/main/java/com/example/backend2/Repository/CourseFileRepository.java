@@ -47,7 +47,13 @@ public interface CourseFileRepository extends JpaRepository<CourseFile, Integer>
             "JOIN course c ON cf.course_idCourse = c.idCourse " +
             "JOIN category_course cc ON c.category_Course_idCategory_Course = cc.idCategory_Course " +
             "where cf.hide is true and cf.emailOwner = :emailOwner order by cf.fileCreatedOn desc", nativeQuery = true)
-    List<CourseFile> findAllCourseFileByBeHidden(@Param("emailOwner") String emailOwner);
+    List<CourseFile> findAllCourseFileByBeHiddenAnsEmail(@Param("emailOwner") String emailOwner);
+
+    @Query(value = "select * from course_file cf " +
+            "JOIN course c ON cf.course_idCourse = c.idCourse " +
+            "JOIN category_course cc ON c.category_Course_idCategory_Course = cc.idCategory_Course " +
+            "where cf.hide is true order by cf.fileCreatedOn desc", nativeQuery = true)
+    List<CourseFile> findAllCourseFileByBeHidden();
 
     List<CourseFile> findAllByCourseIdcourseIdAndHideIsFalse(Integer courseId);
 }

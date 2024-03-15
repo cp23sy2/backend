@@ -93,7 +93,7 @@ public class ReviewController {
         reviewService.editReviewHideStatus(reviewId);
     }
 
-    @PreAuthorize("hasAuthority('st_group')")
+    @PreAuthorize("hasAnyAuthority('staff_group','st_group')")
     @GetMapping("/hidden")
     public List<ReviewViewAllDto> getReviewByBeHidden(){
         return reviewService.getReviewByBeHidden();

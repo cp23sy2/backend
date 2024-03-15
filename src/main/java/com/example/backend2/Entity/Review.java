@@ -91,7 +91,7 @@ public class Review {
 
     @JsonIgnore
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "course_idCourse", nullable = false)
     private Course courseIdcourse;
 

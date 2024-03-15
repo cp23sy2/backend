@@ -54,6 +54,11 @@ public class ReportCourseFileService {
         reportCourseFile.setReportCourseFileCreatedOn(currentInstant);
         reportCourseFile.setCourseFileIdcourseFile(courseFile);
 
+        if(reportCourseFile.getInappropriateCourseFile() == false && reportCourseFile.getNotMatchCourseFile() == false ||
+                reportCourseFile.getInappropriateCourseFile() == true && reportCourseFile.getNotMatchCourseFile() == true) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please send 1 detail to report");
+        }
+
         if(roleMail.getAuthorities().toString().equals("[st_group]")){
             if(!roleMail.getDetails().equals(reportCourseFile.getEmailReportCourseFile())){
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"It's not your report");

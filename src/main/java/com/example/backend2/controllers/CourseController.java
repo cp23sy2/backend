@@ -54,7 +54,6 @@ public class CourseController {
 //        return courseService.getReviewsByCourseId(courseId, page-1, pageSize);
 //    }
 
-
     @GetMapping("/{courseId}/summary")
     public List<CourseFileAllDto> getCourseByCourseId(@PathVariable Integer courseId) {
         return courseService.getCourseByCourseId(courseId);

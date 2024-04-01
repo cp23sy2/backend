@@ -128,9 +128,9 @@ public class CommentService {
     }
 
     public Page<CommentAllDto> getCommentByCourseFileId(Integer courseFileId, int page, int pageSize) {
-        courseFileRepository.findById(courseFileId).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        courseFileId + " does't exist !!"));
+        CourseFile courseFile = courseFileRepository.findById(courseFileId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        courseFileId + " does not exist"));
 
         Pageable pageable = PageRequest.of(page, pageSize);
         Page<Comment> commentPage = commentRepository.findCommentByCourseFileId(courseFileId, pageable);

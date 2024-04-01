@@ -128,7 +128,7 @@ public class CommentService {
     }
 
     public Page<CommentAllDto> getCommentByCourseFileId(Integer courseFileId, int page, int pageSize) {
-        CourseFile courseFile = courseFileRepository.findById(courseFileId)
+        courseFileRepository.findById(courseFileId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         courseFileId + " does not exist"));
 

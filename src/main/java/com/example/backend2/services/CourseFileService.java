@@ -330,7 +330,13 @@ public class CourseFileService {
         CourseFile courseFile = courseFileRepository.findById(courseFileId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, courseFileId + " does't exist !!"));
 
-        courseFile.setHide(true);
+        courseFile.setHide(!courseFile.getHide());
+
+        if (!courseFile.getHide()) {
+            List<ReportCoursefile> reportCoursefilesToDelete = reportCoursefileRepository.findReportCoursefileByCourseFileId(courseFileId);
+            reportCoursefileRepository.deleteAll(reportCoursefilesToDelete);
+        }
+
         courseFileRepository.save(courseFile);
     }
 

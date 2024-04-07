@@ -342,7 +342,13 @@ public class ReviewService {
         Review review = reviewRepository.findById(reviewId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, reviewId + " does't exist !!"));
 
-        review.setHide(true);
+        review.setHide(!review.getHide());
+
+        if (!review.getHide()) {
+            List<ReportReview> reportReportToDelete = reportReviewRepository.findReportReviewByReviewId(reviewId);
+            reportReviewRepository.deleteAll(reportReportToDelete);
+        }
+
         return reviewRepository.saveAndFlush(review);
     }
 

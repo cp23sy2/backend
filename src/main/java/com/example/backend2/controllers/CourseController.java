@@ -54,6 +54,7 @@ public class CourseController {
 //        return courseService.getReviewsByCourseId(courseId, page-1, pageSize);
 //    }
 
+    @PreAuthorize("hasAnyAuthority('staff_group','st_group')")
     @GetMapping("/{courseId}/summary")
     public List<CourseFileAllDto> getCourseByCourseId(@PathVariable Integer courseId) {
         return courseService.getCourseByCourseId(courseId);
